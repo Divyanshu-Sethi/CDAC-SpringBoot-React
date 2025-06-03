@@ -67,7 +67,7 @@ const UniversityMaster = () => {
 
   return (
     <div className="container mt-5 p-4 bg-white rounded shadow">
-      <h2 className="text-info mb-4">Add / Edit University Type</h2>
+      <h2 className="text-info mb-4">University Type Master</h2>
       <UniversityForm onSave={handleSave} editData={editData} />
       <hr className="my-4" />
       <h4 className="text-secondary mb-3">All University Types</h4>

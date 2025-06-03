@@ -64,7 +64,7 @@ const QualificationMaster = () => {
 
   return (
     <div className="container mt-5 p-4 bg-white rounded shadow">
-      <h2 className="text-info mb-4">Add / Edit Qualification Type</h2>
+      <h2 className="text-info mb-4">Qualification Type Master</h2>
       <QualificationForm onSave={handleSave} editData={editData} />
       <hr className="my-4" />
       <h4 className="text-secondary mb-3">All Qualification Types</h4>

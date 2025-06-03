@@ -61,7 +61,7 @@ const LeaveMaster = () => {
 
   return (
     <div className="container mt-5 p-4 bg-white rounded shadow">
-      <h2 className="text-info mb-4">Add / Edit Leave Type</h2>
+      <h2 className="text-info mb-4">Leave Type Master</h2>
       <LeaveForm onSave={handleSave} editData={editData} />
       <hr className="my-4" />
       <h4 className="text-secondary mb-3">All Leave Types</h4>

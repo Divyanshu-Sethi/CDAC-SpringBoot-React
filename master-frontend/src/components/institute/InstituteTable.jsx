@@ -25,10 +25,10 @@ return (
               <td>{institute.updatedBy}</td>
               <td>{institute.updatedAt ? new Date(institute.updatedAt).toLocaleString() : ''}</td>
               <td>
-                <button className="btn btn-warning btn-sm me-2" onClick={() => onEdit(leave)}>
+                <button className="btn btn-warning btn-sm me-2" onClick={() => onEdit(institute)}>
                   Edit
                 </button>
-                <button className="btn btn-danger btn-sm" onClick={() => onDelete(leave.id)}>
+                <button className="btn btn-danger btn-sm" onClick={() => onDelete(institute.id)}>
                   Delete
                 </button>
               </td>
@@ -37,7 +37,7 @@ return (
         ) : (
           <tr>
             <td colSpan="7" className="text-center">
-              No leave types found.
+              No institutes found.
             </td>
           </tr>
         )}

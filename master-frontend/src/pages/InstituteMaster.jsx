@@ -61,7 +61,7 @@ const InstituteMaster = () => {
 
   return (
     <div className="container mt-5 p-4 bg-white rounded shadow">
-      <h2 className="text-info mb-4">Add / Edit Institute Type</h2>
+      <h2 className="text-info mb-4">Institute Type Master</h2>
       <InstituteForm onSave={handleSave} editData={editData} />
       <hr className="my-4" />
       <h4 className="text-secondary mb-3">All Institute Types</h4>

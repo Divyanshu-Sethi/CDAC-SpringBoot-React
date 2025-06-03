@@ -3,11 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Master Frontend App</title>
-
+    <title>Eklavya Management Information System</title>
 
     <!-- Description and SEO -->
-    <meta name="description" content="Master forms frontend for managing data in a beautiful way!" />
+    <meta name="description" content="Eklavya Management Information System - Manage data seamlessly." />
 
     <!-- Optional: Theme color for better mobile appearance -->
     <meta name="theme-color" content="#12addc" />
@@ -15,11 +14,24 @@
     <!-- Optional: Google Fonts -->
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" /> -->
 
-    <!-- Optional: PWA manifest or others, if needed -->
-    <!-- <link rel="manifest" href="/manifest.json" /> -->
-  </head>
-  <body style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f4;">
+    <!-- CSS file -->
+    <link rel="stylesheet" href="/src/globals.css" />
+  <header style="display: flex; justify-content: space-between; align-items: flex-start; padding: 0rem; background-color: #f8f6f6;">
+  <img src="/public/eklavya-bgless.png" alt="Eklavya Logo" style="height: 120px; margin-top: 5rem;" />
+  <h1 style="margin: 0; font-size: 2.0rem; font-family:'Times New Roman', Times, serif ; color: #0bb4e7; align-self: center; margin-top: -5rem;">
+    Eklavya Management Information System
+  </h1>
+  <img src="/public/nests-logo1.jpg" alt="CDAC Logo" style="height: 120px; margin-top: 5rem;" />
+</header>
+
+
+    <!-- Root app content -->
     <div id="root"></div>
+
+    <!-- Footer -->
+    <footer style="text-align: center; background-color: #161616; padding: 0.5rem;">
+    <img src="/public/footer_cdac.png" alt="CDAC Footer" style="max-width: 100%; height: auto;" />
+    </footer>
 
     <!-- Vite injects the JS bundle here -->
     <script type="module" src="/src/index.jsx"></script>

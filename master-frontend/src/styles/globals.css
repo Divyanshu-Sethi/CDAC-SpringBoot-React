@@ -1,15 +1,15 @@
-/* globals.css */
+
 
 /* Bootstrap base styles (via CDN or NPM import in index.js) */
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-/* Global resets & base styles */
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  background: linear-gradient(to right, #12addc, #e7f4ff);
+  background-color: #f1f5f9; /* Soft light grey/blueish tone */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
@@ -54,7 +54,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .table-hover tbody tr:hover {
-  background-color: #f9f9f9;
+  background-color: #c4bfbf;
 }
 
 /* Toast container for notifications */

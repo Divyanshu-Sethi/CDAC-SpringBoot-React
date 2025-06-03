@@ -1,0 +1,147 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <title>User Type Master</title>-->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">-->
+<!--  <style>-->
+<!--        body { background: linear-gradient(to right, #3895e4, #68da30); }-->
+<!--        .toast-container { position: fixed; top: 1rem; right: 1rem; z-index: 1080; }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container mt-5 p-4 bg-white rounded shadow">-->
+<!--  <h2 class="text-primary mb-4">Add / Edit User Type</h2>-->
+
+<!--  <form id="userTypeForm" class="row g-3">-->
+<!--    <input type="hidden" name="id" />-->
+<!--    <div class="col-md-8">-->
+<!--      <input type="text" name="name" class="form-control" placeholder="Enter user type" required />-->
+<!--      <div id="nameError" class="text-danger"></div>-->
+<!--    </div>-->
+<!--    <div class="col-md-4">-->
+<!--      <button type="submit" class="btn btn-primary w-100">Save</button>-->
+<!--    </div>-->
+<!--  </form>-->
+
+<!--  <hr class="my-4" />-->
+<!--  <h4 class="text-secondary mb-3">All User Types</h4>-->
+<!--  <table class="table table-bordered table-hover mt-2">-->
+<!--    <thead class="table-primary">-->
+<!--    <tr>-->
+<!--      <th>ID</th>-->
+<!--      <th>User Type</th>-->
+<!--      <th>Created By</th>-->
+<!--      <th>Created At</th>-->
+<!--      <th>Updated By</th>-->
+<!--      <th>Updated At</th>-->
+<!--      <th>Actions</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody id="userTypeTableBody"></tbody>-->
+<!--  </table>-->
+<!--</div>-->
+
+<!--<div class="toast-container" id="toastContainer"></div>-->
+
+<!--<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
+
+<!--<script>-->
+<!--$(function () {-->
+<!--    function showToast(message, type = 'success') {-->
+<!--        const toastId = 'toast' + Date.now();-->
+<!--        $('#toastContainer').append(`-->
+<!--            <div id="${toastId}" class="toast text-bg-${type} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true">-->
+<!--              <div class="d-flex">-->
+<!--                <div class="toast-body">${message}</div>-->
+<!--                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--        `);-->
+<!--        const toast = new bootstrap.Toast(document.getElementById(toastId), { delay: 4000 });-->
+<!--        toast.show();-->
+<!--        toast._element.addEventListener('hidden.bs.toast', function () {-->
+<!--            $(this).remove();-->
+<!--        });-->
+<!--    }-->
+
+<!--    function loadTable() {-->
+<!--        $.get('/user', function (data) {-->
+<!--            const rows = data.length ? data.map(user => `-->
+<!--                <tr>-->
+<!--                    <td>${user.id}</td>-->
+<!--                    <td>${user.name}</td>-->
+<!--                    <td>${user.createdBy ?? ''}</td>-->
+<!--                    <td>${user.createdAt ? new Date(user.createdAt).toLocaleString() : ''}</td>-->
+<!--                    <td>${user.updatedBy ?? ''}</td>-->
+<!--                    <td>${user.updatedAt ? new Date(user.updatedAt).toLocaleString() : ''}</td>-->
+<!--                    <td>-->
+<!--                        <button class="btn btn-warning btn-sm me-2 editBtn" data-id="${user.id}">Edit</button>-->
+<!--                        <button class="btn btn-danger btn-sm deleteBtn" data-id="${user.id}">Delete</button>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            `).join('') : '<tr><td colspan="7" class="text-center">No user types found.</td></tr>';-->
+<!--            $('#userTypeTableBody').html(rows);-->
+<!--        }).fail(() => showToast('Failed to load user types', 'danger'));-->
+<!--    }-->
+
+<!--    $('#userTypeForm').submit(function (e) {-->
+<!--        e.preventDefault();-->
+<!--        $('#nameError').text('');-->
+<!--        const id = $('input[name="id"]').val();-->
+<!--        const method = id ? 'PUT' : 'POST';-->
+<!--        const url = id ? `/user/${id}` : '/user';-->
+<!--        const formData = { name: $('input[name="name"]').val() };-->
+
+<!--        $.ajax({-->
+<!--            url,-->
+<!--            method,-->
+<!--            contentType: 'application/json',-->
+<!--            data: JSON.stringify(formData),-->
+<!--            success: function () {-->
+<!--                $('#userTypeForm')[0].reset();-->
+<!--                $('input[name="id"]').val('');-->
+<!--                showToast(`User type ${id ? 'updated' : 'saved'} successfully`);-->
+<!--                loadTable();-->
+<!--            },-->
+<!--            error: function (xhr) {-->
+<!--                if (xhr.status === 409) showToast(xhr.responseText, 'danger');-->
+<!--                else if (xhr.status === 400) {-->
+<!--                    xhr.responseJSON.forEach(e => {-->
+<!--                        if (e.field === 'name') $('#nameError').text(e.defaultMessage);-->
+<!--                    });-->
+<!--                } else showToast('Unexpected error occurred', 'danger');-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+
+<!--    $(document).on('click', '.editBtn', function () {-->
+<!--        const id = $(this).data('id');-->
+<!--        $.get(`/user/${id}`, function (data) {-->
+<!--            $('input[name="id"]').val(data.id);-->
+<!--            $('input[name="name"]').val(data.name);-->
+<!--        }).fail(() => showToast('Could not load user type', 'danger'));-->
+<!--    });-->
+
+<!--    $(document).on('click', '.deleteBtn', function () {-->
+<!--        const id = $(this).data('id');-->
+<!--        if (confirm('Delete this user type?')) {-->
+<!--            $.ajax({-->
+<!--                url: `/user/${id}`,-->
+<!--                method: 'DELETE',-->
+<!--                success: function () {-->
+<!--                    showToast('User type deleted');-->
+<!--                    loadTable();-->
+<!--                },-->
+<!--                error: function () {-->
+<!--                    showToast('Failed to delete user type', 'danger');-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--    });-->
+
+<!--    loadTable();-->
+<!--});-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

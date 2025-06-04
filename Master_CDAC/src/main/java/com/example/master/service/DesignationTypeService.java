@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public class DesignationTypeService {
-    @Autowired
+
     private final DesignationTypeRepository repository;
 
     public DesignationTypeService(DesignationTypeRepository repository) {

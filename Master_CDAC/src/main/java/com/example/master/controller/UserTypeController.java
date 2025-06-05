@@ -1,37 +1,35 @@
 package com.example.master.controller;
 
-import com.example.master.entity.UserType;
+import com.example.master.dto.usertype.UsertypeTypeRequestDTO;
+import com.example.master.dto.usertype.UsertypeTypeResponseDTO;
 import com.example.master.exception.DuplicateEntryException;
 import com.example.master.service.UserTypeService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")  // React dev server URL
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/user-type")
 public class UserTypeController {
 
     private final UserTypeService service;
 
-    @Autowired
     public UserTypeController(UserTypeService service) {
         this.service = service;
     }
 
     // GET all user types
     @GetMapping
-    public ResponseEntity<List<UserType>> getAll() {
-        List<UserType> userTypes = service.getAllUserTypes();
+    public ResponseEntity<List<UsertypeTypeResponseDTO>> getAll() {
+        List<UsertypeTypeResponseDTO> userTypes = service.getAllUserTypes();
         return ResponseEntity.ok(userTypes);
     }
 
-    // GET a specific user type by ID
+    // GET a user type by ID
     @GetMapping("/{id}")
-    public ResponseEntity<UserType> getById(@PathVariable Long id) {
+    public ResponseEntity<UsertypeTypeResponseDTO> getById(@PathVariable Long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -39,9 +37,9 @@ public class UserTypeController {
 
     // CREATE a new user type
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody UserType userType) {
+    public ResponseEntity<?> create(@Valid @RequestBody UsertypeTypeRequestDTO requestDTO) {
         try {
-            UserType saved = service.save(userType);
+            UsertypeTypeResponseDTO saved = service.save(requestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
         } catch (DuplicateEntryException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -51,13 +49,14 @@ public class UserTypeController {
     // UPDATE an existing user type
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                    @Valid @RequestBody UserType userType) {
+                                    @Valid @RequestBody UsertypeTypeRequestDTO requestDTO) {
         try {
-            userType.setId(id);
-            UserType updated = service.save(userType);
+            UsertypeTypeResponseDTO updated = service.update(id, requestDTO);
             return ResponseEntity.ok(updated);
         } catch (DuplicateEntryException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

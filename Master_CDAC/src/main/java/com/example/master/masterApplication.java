@@ -18,3 +18,4 @@ public class masterApplication {
 //EndPoint for Qualification Master => http://localhost:8081/qualification-type        (UPDATED)
 //EndPoint for University Master =>    http://localhost:8081/university-type           (UPDATED)
 //EndPoint for Institute Master =>     http://localhost:8081/institute-type            (UPDATED)
+// EndPoint for H2 Database =>         http://localhost:8081/h2-console                (JDBC URL: jdbc:h2:mem:testdb)

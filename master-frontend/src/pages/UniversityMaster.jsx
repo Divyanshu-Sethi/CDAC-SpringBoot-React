@@ -31,7 +31,6 @@ const UniversityMaster = () => {
     const apiCall = editData
       ? updateUniversity(editData.id, data)
       : createUniversity(data);
-
     apiCall
       .then(() => {
         showToast(`University ${editData ? 'updated' : 'created'} successfully`);
@@ -44,11 +43,9 @@ const UniversityMaster = () => {
       });
   };
 
-  const handleEdit = (id) => {
-    getUniversityById(id)
-      .then((res) => setEditData(res.data))
-      .catch(() => showToast('Failed to load university data', 'danger'));
-  };
+  const handleEdit = (data) => {
+    setEditData(data);
+};
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure?')) {

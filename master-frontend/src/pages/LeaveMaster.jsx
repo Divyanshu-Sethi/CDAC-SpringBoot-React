@@ -4,7 +4,6 @@ import LeaveTable from '../components/leave/LeaveTable';
 import Toast from '../components/common/Toast';
 import {
   getLeaves,
-  getLeaveById,
   createLeave,
   updateLeave,
   deleteLeave,
@@ -65,9 +64,18 @@ const LeaveMaster = () => {
       <LeaveForm onSave={handleSave} editData={editData} />
       <hr className="my-4" />
       <h4 className="text-secondary mb-3">All Leave Types</h4>
-      <LeaveTable leaves={leaves} onEdit={handleEdit} onDelete={handleDelete} />
+      <LeaveTable 
+      leaves={leaves} 
+      onEdit={handleEdit} 
+      onDelete={handleDelete} 
+      />
       <div className="toast-container position-fixed top-0 end-0 p-3">
-        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+        {toast && (
+          <Toast
+          message={toast.message} 
+          type={toast.type} 
+          onClose={() => setToast(null)} />
+        )}
       </div>
     </div>
   );

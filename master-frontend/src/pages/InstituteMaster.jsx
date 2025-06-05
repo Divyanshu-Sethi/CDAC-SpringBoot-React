@@ -4,7 +4,6 @@ import InstituteTable from "../components/institute/InstituteTable";
 import Toast from "../components/common/Toast";
 import {
   getInstitutes,
-  getInstituteById,
   createInstitute,
   updateInstitute,
   deleteInstitute,
@@ -65,9 +64,18 @@ const InstituteMaster = () => {
       <InstituteForm onSave={handleSave} editData={editData} />
       <hr className="my-4" />
       <h4 className="text-secondary mb-3">All Institute Types</h4>
-      <InstituteTable institutes={institutes} onEdit={handleEdit} onDelete={handleDelete} />
+      <InstituteTable 
+      institutes={institutes} 
+      onEdit={handleEdit} 
+      onDelete={handleDelete} 
+      />
       <div className="toast-container position-fixed top-0 end-0 p-3">
-        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+        {toast && (<Toast 
+        message={toast.message} 
+        type={toast.type} 
+        onClose={() => setToast(null)} 
+        />
+      )}
       </div>
     </div>
   );

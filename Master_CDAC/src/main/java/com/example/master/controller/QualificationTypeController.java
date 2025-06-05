@@ -1,12 +1,13 @@
 package com.example.master.controller;
 
-import com.example.master.entity.QualificationType;
+import com.example.master.dto.qualification.QualificationTypeRequestDTO;
+import com.example.master.dto.qualification.QualificationTypeResponseDTO;
 import com.example.master.exception.DuplicateEntryException;
 import com.example.master.service.QualificationTypeService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173")  // Allow React frontend
@@ -16,20 +17,20 @@ public class QualificationTypeController {
 
     private final QualificationTypeService service;
 
-    @Autowired
     public QualificationTypeController(QualificationTypeService service) {
         this.service = service;
     }
 
     // GET all qualifications
     @GetMapping
-    public ResponseEntity<List<QualificationType>> getAll() {
-        return ResponseEntity.ok(service.getAllQualifications());
+    public ResponseEntity<List<QualificationTypeResponseDTO>> getAll() {
+        List<QualificationTypeResponseDTO> qualifications = service.getAllQualifications();
+        return ResponseEntity.ok(qualifications);
     }
 
     // GET qualification by ID
     @GetMapping("/{id}")
-    public ResponseEntity<QualificationType> getById(@PathVariable Long id) {
+    public ResponseEntity<QualificationTypeResponseDTO> getById(@PathVariable Long id) {
         return service.getQualificationById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -37,9 +38,9 @@ public class QualificationTypeController {
 
     // CREATE qualification
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody QualificationType qualificationType) {
+    public ResponseEntity<?> create(@Valid @RequestBody QualificationTypeRequestDTO requestDTO) {
         try {
-            QualificationType saved = service.save(qualificationType);
+            QualificationTypeResponseDTO saved = service.save(requestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
         } catch (DuplicateEntryException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -48,13 +49,14 @@ public class QualificationTypeController {
 
     // UPDATE qualification
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody QualificationType qualificationType) {
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody QualificationTypeRequestDTO requestDTO) {
         try {
-            qualificationType.setId(id);
-            QualificationType updated = service.save(qualificationType);
+            QualificationTypeResponseDTO updated = service.update(id, requestDTO);
             return ResponseEntity.ok(updated);
         } catch (DuplicateEntryException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

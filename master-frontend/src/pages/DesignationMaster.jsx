@@ -4,7 +4,6 @@ import DesignationTable from "../components/designation/DesignationTable";
 import Toast from "../components/common/Toast";
 import {
   getDesignation,
-  getDesignationById,
   createDesignation,
   updateDesignation,
   deleteDesignation,
@@ -27,7 +26,9 @@ const DesignationMaster = () => {
   };
 
   const handleSave = (data) => {
-    const apiCall = editData ? updateDesignation(editData.id, data) : createDesignation(data);
+    const apiCall = editData
+     ? updateDesignation(editData.id, data)
+     : createDesignation(data);
     apiCall
       .then(() => {
         showToast(`Designation ${editData ? 'updated' : 'created'} successfully`);
@@ -35,8 +36,8 @@ const DesignationMaster = () => {
         loadDesignation();
       })
       .catch((err) => {
-        if (err.response?.status === 409) showToast(err.response.data, 'danger');
-        else showToast('Error occurred', 'danger');
+        if (err.response?.status === 409)  showToast(err.response.data, 'danger');
+         else   showToast('Error occurred', 'danger');
       });
   };
 
@@ -65,9 +66,19 @@ const DesignationMaster = () => {
       <DesignationForm onSave={handleSave} editData={editData} />
       <hr className="my-4" />
       <h4 className="text-secondary mb-3">All Designation Types</h4>
-      <DesignationTable designations={designations} onEdit={handleEdit} onDelete={handleDelete} />
+      <DesignationTable
+        designations={designations}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
       <div className="toast-container position-fixed top-0 end-0 p-3">
-        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </div>
     </div>
   );

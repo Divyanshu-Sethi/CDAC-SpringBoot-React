@@ -1,6 +1,7 @@
 package com.example.master.controller;
 
-import com.example.master.entity.InstituteType;
+import com.example.master.dto.institute.InstituteTypeRequestDTO;
+import com.example.master.dto.institute.InstituteTypeResponseDTO;
 import com.example.master.exception.DuplicateEntryException;
 import com.example.master.service.InstituteTypeService;
 import jakarta.validation.Valid;
@@ -21,46 +22,47 @@ public class InstituteTypeController {
         this.service = service;
     }
 
-    // GET all institute types
+    // GET all
     @GetMapping
-    public ResponseEntity<List<InstituteType>> getAll() {
-        List<InstituteType> institutes = service.getAllInstituteTypes();
-        return ResponseEntity.ok(institutes);
+    public ResponseEntity<List<InstituteTypeResponseDTO>> getAll() {
+        List<InstituteTypeResponseDTO> list = service.getAllInstitutes();
+        return ResponseEntity.ok(list);
     }
 
-    // GET a specific institute type by ID
+    // GET by ID
     @GetMapping("/{id}")
-    public ResponseEntity<InstituteType> getById(@PathVariable Long id) {
+    public ResponseEntity<InstituteTypeResponseDTO> getById(@PathVariable Long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // CREATE a new institute type
+    // CREATE
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody InstituteType instituteType) {
+    public ResponseEntity<?> create(@Valid @RequestBody InstituteTypeRequestDTO requestDTO) {
         try {
-            InstituteType saved = service.save(instituteType);
+            InstituteTypeResponseDTO saved = service.save(requestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
         } catch (DuplicateEntryException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 
-    // UPDATE an existing institute type
+    // UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                    @Valid @RequestBody InstituteType instituteType) {
+                                    @Valid @RequestBody InstituteTypeRequestDTO requestDTO) {
         try {
-            instituteType.setId(id);
-            InstituteType updated = service.save(instituteType);
+            InstituteTypeResponseDTO updated = service.update(id, requestDTO);
             return ResponseEntity.ok(updated);
         } catch (DuplicateEntryException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    // DELETE an institute type by ID
+    // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);

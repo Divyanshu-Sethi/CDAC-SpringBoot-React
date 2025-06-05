@@ -5,7 +5,6 @@ import Toast from "../components/common/Toast";
 
 import {
   getUserTypes,
-  getUserTypeById,
   createUserType,
   updateUserType,
   deleteUserType,
@@ -31,7 +30,6 @@ const UserTypeMaster = () => {
     const apiCall = editData
       ? updateUserType(editData.id, data)
       : createUserType(data);
-
     apiCall
       .then(() => {
         showToast(`User Type ${editData ? 'updated' : 'created'} successfully`);

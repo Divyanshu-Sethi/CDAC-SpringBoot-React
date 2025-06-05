@@ -27,10 +27,7 @@ const QualificationMaster = () => {
   };
 
   const handleSave = (data) => {
-    const apiCall = editData
-      ? updateQualification(editData.id, data)
-      : createQualification(data);
-
+    const apiCall = editData ? updateQualification(editData.id, data) : createQualification(data);
     apiCall
       .then(() => {
         showToast(`Qualification ${editData ? 'updated' : 'created'} successfully`);
@@ -38,8 +35,8 @@ const QualificationMaster = () => {
         loadQualifications();
       })
       .catch((err) => {
-        const errorMsg = err.response?.data || 'Error occurred';
-        showToast(errorMsg, 'danger');
+       if (err.response?.status === 409)  showToast(err.response.data, 'danger');
+         else   showToast('Error occurred', 'danger');
       });
   };
 

@@ -16,3 +16,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // EndPoint for Qualification Master => http://localhost:5173/qualification        (UPDATED)
 // EndPoint for University Master =>    http://localhost:5173/university-type      (UPDATED)
 // EndPoint for Institute Master =>     http://localhost:5173/institute            (UPDATED)
+// EndPoint for H2 Database =>          http://localhost:8081/h2-console           (JDBC URL: jdbc:h2:mem:testdb)    

@@ -11,17 +11,15 @@ const App = () => {
   return (
     <Router>
       <div className="bg-light min-vh-100 d-flex flex-column">
-        {/* Add a navbar here if needed */}
         <Routes>
-          <Route path="/" element={<Navigate to="/leave" replace />} />
+          <Route path="/" element={<Navigate to="/designation" replace />} />
           <Route path="/leave" element={<LeaveMaster />} />
           <Route path="/qualification" element={<QualificationMaster />} />
           <Route path="/designation" element={<DesignationMaster />} />
           <Route path="/user-type" element={<UserTypeMaster />} />
           <Route path="/university-type" element={<UniversityTypeMaster />} />
-          <Route path="/institute" element={<InstituteMaster />} /> {/* Institute Master route! */}
+          <Route path="/institute" element={<InstituteMaster />} /> 
 
-          {/* Fallback 404 */}
           <Route
             path="*"
             element={
